@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vaulto — Privacy Policy</title>
+<style>
+  :root { --amber:#FFB020; --bg:#0A0A0B; --card:#141417; --text:#E8E8EA; --muted:#9a9aa0; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text);
+    font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; }
+  .wrap { max-width:760px; margin:0 auto; padding:48px 20px 80px; }
+  h1 { font-size:30px; margin:0 0 4px; }
+  h1 .brand { color:var(--amber); }
+  .meta { color:var(--muted); font-size:14px; margin-bottom:28px; }
+  h2 { font-size:20px; margin:34px 0 8px; color:var(--amber); }
+  p, li { color:var(--text); }
+  .tldr { background:var(--card); border:1px solid #26262b; border-left:4px solid var(--amber);
+    border-radius:10px; padding:16px 18px; margin:18px 0 8px; }
+  table { border-collapse:collapse; width:100%; margin:12px 0; font-size:15px; }
+  th, td { border:1px solid #2a2a30; padding:8px 10px; text-align:left; vertical-align:top; }
+  th { background:var(--card); color:var(--amber); }
+  code { background:#1c1c20; padding:1px 6px; border-radius:5px; font-size:14px; }
+  ul { padding-left:22px; }
+  a { color:var(--amber); }
+  footer { margin-top:48px; color:var(--muted); font-size:13px; border-top:1px solid #26262b; padding-top:16px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1><span class="brand">Vaulto</span> — Privacy Policy</h1>
+  <div class="meta">Effective date: 2026-09-06 · Application: <code>com.vaulto.vaulto</code></div>
+
+  <div class="tldr">
+    <strong>TL;DR:</strong> Vaulto has no network permission. It <em>cannot</em> send
+    your data anywhere. No account, no server, no analytics, no ads, no tracking, no
+    third-party SDK. Everything lives encrypted on your device, and deleting the app
+    deletes everything.
+  </div>
+
+  <h2>1. What we do NOT collect</h2>
+  <p>Vaulto requests <strong>zero</strong> network permissions — the OS prevents it from
+  making any network connection. We do <strong>not</strong> collect, transmit, or process:</p>
+  <ul>
+    <li>Personal information (name, email, phone, address)</li>
+    <li>Your vault contents, master password, or any secret</li>
+    <li>Device identifiers, advertising IDs, or analytics IDs</li>
+    <li>Location (precise or approximate)</li>
+    <li>Usage analytics, crash reports, telemetry, or any "phoning home"</li>
+    <li>Biometric images (fingerprint / face data never leave the sensor)</li>
+  </ul>
+  <p>There is no Vaulto server that receives user data, because the app never uses a network.</p>
+
+  <h2>2. What is stored, and where</h2>
+  <p>All data is stored <strong>locally on your device</strong> in the app's private storage:</p>
+  <table>
+    <tr><th>Data</th><th>Location</th><th>Protection</th></tr>
+    <tr><td>Your secrets</td><td>App-private file <code>vaulto.enc</code></td><td>AES-256-GCM; key from Argon2id over your master password</td></tr>
+    <tr><td>Master password</td><td><strong>Never stored</strong></td><td>Used in memory to derive the key, then discarded</td></tr>
+    <tr><td>Biometric unlock material</td><td>Android Keystore / iOS Keychain</td><td>Random wrapping key, gated by your device biometric</td></tr>
+    <tr><td>Preferences</td><td>App-private preferences</td><td>Non-sensitive</td></tr>
+  </table>
+  <p>The key and decrypted secrets live in RAM only while unlocked and are cleared on lock.
+  (Dart gives no hard zeroization guarantee; see §7.)</p>
+
+  <h2>3. Biometrics</h2>
+  <p>If you enable biometric unlock, Vaulto uses your device's built-in fingerprint/face system
+  (Android <code>BiometricPrompt</code> / iOS <code>LocalAuthentication</code>). Vaulto
+  <strong>never</strong> sees, stores, or transmits biometric data — matching happens inside
+  secure hardware. Vaulto only receives a success/failure result.</p>
+
+  <h2>4. Clipboard</h2>
+  <p>Copying a password places it on your system clipboard. Vaulto automatically clears the
+  clipboard <strong>30 seconds</strong> after each copy to limit exposure.</p>
+
+  <h2>5. Backups and exports</h2>
+  <ul>
+    <li><strong>Cloud/device backup is disabled.</strong> Android auto-backup and
+      <code>adb backup</code> are off; the iOS vault file is excluded from iCloud Backup.</li>
+    <li><strong>Manual export is your choice.</strong> You may export an encrypted
+      <code>.vaulto</code> backup or a <strong>plaintext CSV</strong>; protecting exported
+      files is your responsibility.</li>
+  </ul>
+
+  <h2>6. Pro license (offline)</h2>
+  <p>Vaulto Pro is unlocked with a one-time license key verified <strong>entirely offline</strong>
+  against a public key bundled in the app. We operate no licensing server. The key encodes a
+  salted hash of the purchase email for support; your device never transmits it.</p>
+
+  <h2>7. Security limitations (honest disclosure)</h2>
+  <p>Vaulto uses standard, vetted primitives (Argon2id, AES-256-GCM, Ed25519) and has had an
+  internal security review, but has <strong>not</strong> undergone an independent third-party
+  audit. On a rooted/jailbroken or malware-compromised device, local encryption reduces to the
+  strength of your master password. Choose a strong, unique master password. If you lose it,
+  your data is unrecoverable — by design.</p>
+
+  <h2>8. Children's privacy</h2>
+  <p>Vaulto collects no personal data from anyone, including children. It requires no account
+  and is not directed at children.</p>
+
+  <h2>9. Data deletion</h2>
+  <p>Uninstalling Vaulto removes all app data. The in-app <strong>Wipe vault</strong> action
+  irreversibly destroys the vault and key material immediately.</p>
+
+  <h2>10. Changes to this policy</h2>
+  <p>Changes update the effective date and ship with an app update. Because Vaulto has no
+  network access, changes reach you only through an update.</p>
+
+  <h2>11. Contact</h2>
+  <p>For privacy questions, contact the developer via the address on the Vaulto store listing.</p>
+
+  <footer>Vaulto — Your secrets. Never leave your device.</footer>
+</div>
+</body>
+</html>
